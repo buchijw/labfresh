@@ -3,9 +3,11 @@
 set -euo pipefail
 
 # Check if the script is being run as root
-if [ $(id -u) -ne 0 ]; then
-    echo "This script must be run as root."
-    exit 1
+if [ "$CI" != 'true' ]; then
+  if [ $(id -u) -ne 0 ]; then
+      echo "This script must be run as root."
+      exit 1
+  fi
 fi
 
 # rustdesk
