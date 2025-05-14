@@ -3,12 +3,13 @@
 set -euo pipefail
 
 # Check if the script is being run as root
-# if [ "$CI" != 'true' ]; then
 if [ $(id -u) -ne 0 ]; then
     echo "This script must be run as root."
     exit 1
 fi
-# fi
+
+# apt update
+apt-get update
 
 # rustdesk
 echo "Installing rustdesk..."
