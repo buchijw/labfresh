@@ -1,0 +1,109 @@
+#cloud-config
+# See the autoinstall documentation at:
+# https://canonical-subiquity.readthedocs-hosted.com/en/latest/reference/autoinstall-reference.html
+autoinstall:
+  refresh-installer:
+    update: true
+  interactive-sections:
+    - network
+    - storage
+    - identity
+  apt:
+    disable_components: []
+    fallback: offline-install
+    geoip: true
+    mirror-selection:
+      primary:
+      - country-mirror
+      - arches: &id001
+        - amd64
+        - i386
+        uri: http:/vn.archive.ubuntu.com/ubuntu/
+      - arches: &id002
+        - s390x
+        - arm64
+        - armhf
+        - powerpc
+        - ppc64el
+        - riscv64
+        uri: http://ports.ubuntu.com/ubuntu-ports
+    preserve_sources_list: false
+    security:
+    - arches: *id001
+      uri: http://security.ubuntu.com/ubuntu/
+    - arches: *id002
+      uri: http://ports.ubuntu.com/ubuntu-ports
+  codecs:
+    install: true
+  drivers:
+    install: true
+  kernel:
+    package: linux-generic-hwe-24.04
+  keyboard:
+    layout: us
+    toggle: null
+    variant: ''
+  locale: en_US.UTF-8
+  network:
+    ethernets:
+      ens33:
+        dhcp4: true
+    version: 2
+  oem:
+    install: auto
+  source:
+    id: ubuntu-desktop
+    search_drivers: true
+    fish:
+      source: "ppa:fish-shell/release-4"
+    vscode.list: # https://learn.microsoft.com/en-us/linux/packages
+      source: "deb [arch=amd64] https://packages.microsoft.com/repos/code stable main"
+      keyid: gpgsecurity@microsoft.com
+    edge.list:
+      source: "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main"
+      keyid: gpgsecurity@microsoft.com
+    docker.list: # https://docs.docker.com/desktop/setup/install/linux/ubuntu/
+      source: "deb [arch=amd64] https://download.docker.com/linux/ubuntu noble stable"
+      keyid: docker@docker.com
+    anydesk.list: # https://deb.anydesk.com/howto.html
+      source: "deb https://deb.anydesk.com all main"
+      keyid: ops@anydesk.com
+    teamviewer.list: # https://www.teamviewer.com/apac/global/support/knowledge-base/teamviewer-classic/installation/linux/install-teamviewer-classic-on-red-hat-and-centos/
+      source: "deb https://linux.teamviewer.com/deb stable main"
+      keyid: support@teamviewer.com
+  ssh:
+    allow-pw: true
+    authorized-keys: []
+    install-server: false
+  storage:
+    storage:
+    layout:
+      name: lvm
+      match:
+        ssd: true
+        size: largest
+  timezone: Asia/Ho_Chi_Minh
+  debconf-selections: |
+    code code/add-microsoft-repo boolean true
+  packages:
+    - git
+    - build-essential
+    - curl
+    - htop
+    - make
+    - wget
+    - apt-transport-https
+    - gpg
+    - ca-certificates
+    - code
+    - microsoft-edge-stable
+    - anydesk
+    - teamviewer
+  late-commands:
+    - curtin in-target -- apt-get update
+    - curtin in-target -- apt-get upgrade
+    - curtin in-target -- curl -o /tmp/docker.deb https://desktop.docker.com/linux/main/amd64/docker-desktop-amd64.deb
+    - curtin in-target -- apt-get install /tmp/docker.deb
+  updates: all
+  shutdown: reboot
+  version: 1
