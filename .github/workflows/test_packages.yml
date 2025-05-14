@@ -24,5 +24,4 @@ jobs:
         env:
           DECRYPT_RUSTDESK: ${{ secrets.DECRYPT_RUSTDESK }}
         run: |
-          export DECRYPT_RUSTDESK=$DECRYPT_RUSTDESK
-          sudo ./packages_apt.sh
+          sudo -E ./packages_apt.sh

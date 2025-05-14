@@ -9,16 +9,23 @@ if [ $(id -u) -ne 0 ]; then
 fi
 
 # apt update
+echo "============================================"
+echo "Updating apt..."
+echo "============================================"
 apt-get update
 
 # rustdesk
-echo "Installing rustdesk..."
+echo "============================================"
+echo "Installing Rustdesk..."
+echo "============================================"
 wget -qO- --max-redirect=10 https://github.com/rustdesk/rustdesk/releases | grep -wo "https.*x86_64.deb\|https.*amd64.deb" | head -n 1 | xargs -I {} wget -O /tmp/rustdesk.deb {}
 apt-get install -y /tmp/rustdesk.deb
 rm -rf /tmp/rustdesk.deb
 
 # Prompt user for decryption password securely
-echo "Setting up rustdesk..."
+echo "============================================"
+echo "Setting up Rustdesk..."
+echo "============================================"
 if [ -n "$DECRYPT_RUSTDESK" ]; then
   echo "Using existing decryption password from environment variable"
 else
@@ -36,7 +43,7 @@ if [ -z "$DECRYPTED_KEY" ]; then
 fi
 
 # Use the decrypted key (example: configuring a software)
-echo "Using decrypted key to configure software..."
+echo "Using decrypted key to configure Rustdesk..."
 rustdesk --config "$DECRYPTED_KEY"
 
 systemctl restart rustdesk
