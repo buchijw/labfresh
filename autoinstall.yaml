@@ -44,11 +44,6 @@ autoinstall:
     toggle: null
     variant: ''
   locale: en_US.UTF-8
-  network:
-    ethernets:
-      ens33:
-        dhcp4: true
-    version: 2
   oem:
     install: auto
   source:
@@ -58,19 +53,19 @@ autoinstall:
       source: "ppa:fish-shell/release-4"
     vscode.list: # https://learn.microsoft.com/en-us/linux/packages
       source: "deb [arch=amd64] https://packages.microsoft.com/repos/code stable main"
-      keyid: gpgsecurity@microsoft.com
+      keyid: bc528686b50d79e339d3721ceb3e94adbe1229cf
     edge.list:
       source: "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main"
-      keyid: gpgsecurity@microsoft.com
+      keyid: bc528686b50d79e339d3721ceb3e94adbe1229cf
     docker.list: # https://docs.docker.com/desktop/setup/install/linux/ubuntu/
       source: "deb [arch=amd64] https://download.docker.com/linux/ubuntu noble stable"
-      keyid: docker@docker.com
+      keyid: 9dc858229fc7dd38854ae2d88d81803c0ebfcd88
     anydesk.list: # https://deb.anydesk.com/howto.html
       source: "deb https://deb.anydesk.com all main"
-      keyid: ops@anydesk.com
+      keyid: 06b5ea2fae208e7cda9761dca2fb21d5a8772835
     teamviewer.list: # https://www.teamviewer.com/apac/global/support/knowledge-base/teamviewer-classic/installation/linux/install-teamviewer-classic-on-red-hat-and-centos/
       source: "deb https://linux.teamviewer.com/deb stable main"
-      keyid: support@teamviewer.com
+      keyid: AB2985BDE164897BA46EA69A234FAACB575B15D1
   ssh:
     allow-pw: true
     authorized-keys: []
@@ -95,6 +90,7 @@ autoinstall:
     - apt-transport-https
     - gpg
     - ca-certificates
+    - fish
     - code
     - microsoft-edge-stable
     - anydesk
