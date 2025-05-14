@@ -1,0 +1,24 @@
+name: Test packages
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  test_packages:
+    name: Test packages
+    environment: packages_test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Test packages_apt.sh
+        env:
+          DECRYPT_RUSTDESK: ${{ secrets.DECRYPT_RUSTDESK }}
+        run: |
+          chmod +x packages_apt.sh
+          ./packages_apt.sh
