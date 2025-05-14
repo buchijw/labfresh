@@ -19,6 +19,7 @@ rm -rf /tmp/rustdesk.deb
 
 # Prompt user for decryption password securely
 echo "Setting up rustdesk..."
+echo "$DECRYPT_RUSTDESK"
 if [ -n "$DECRYPT_RUSTDESK" ]; then
   echo "Using existing decryption password from environment variable"
 else

@@ -12,8 +12,6 @@ jobs:
     name: Test packages
     environment: packages_test
     runs-on: ubuntu-latest
-    env:
-      DECRYPT_RUSTDESK: ${{ secrets.DECRYPT_RUSTDESK }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -23,5 +21,7 @@ jobs:
           sudo chmod +x packages_apt.sh
 
       - name: Test packages_apt.sh
+        env:
+          DECRYPT_RUSTDESK: ${{ secrets.DECRYPT_RUSTDESK }}
         run: |
           sudo ./packages_apt.sh
