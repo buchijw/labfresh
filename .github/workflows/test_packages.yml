@@ -12,13 +12,16 @@ jobs:
     name: Test packages
     environment: packages_test
     runs-on: ubuntu-latest
+    env:
+      DECRYPT_RUSTDESK: ${{ secrets.DECRYPT_RUSTDESK }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Test packages_apt.sh
-        env:
-          DECRYPT_RUSTDESK: ${{ secrets.DECRYPT_RUSTDESK }}
+      - name: Change permissions
         run: |
           sudo chmod +x packages_apt.sh
+
+      - name: Test packages_apt.sh
+        run: |
           sudo ./packages_apt.sh
