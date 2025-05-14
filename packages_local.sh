@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo pipefail
+set -eo pipefail
 
 # miniconda3 https://www.anaconda.com/docs/getting-started/miniconda/install#linux
 mkdir -p ~/miniconda3

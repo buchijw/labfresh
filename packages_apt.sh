@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo pipefail
+set -eo pipefail
 
 # Check if the script is being run as root
 if [ $(id -u) -ne 0 ]; then

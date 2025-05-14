@@ -21,4 +21,4 @@ jobs:
           DECRYPT_RUSTDESK: ${{ secrets.DECRYPT_RUSTDESK }}
         run: |
           sudo chmod +x packages_apt.sh
-          DECRYPT_RUSTDESK=$DECRYPT_RUSTDESK sudo ./packages_apt.sh
+          sudo ./packages_apt.sh
