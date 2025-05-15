@@ -22,6 +22,7 @@ jobs:
 
       - name: Test get_iso.sh with noble
         run: |
+          cd ubuntu
           ./get_iso.sh noble true
 
       - name: Test modify.sh with noble
