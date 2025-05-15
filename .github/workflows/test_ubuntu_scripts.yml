@@ -1,0 +1,29 @@
+name: Test Ubuntu scripts
+
+on:
+  # push:
+  #   branches:
+  #     - main
+
+  workflow_dispatch:
+
+jobs:
+  test_packages:
+    name: Test Ubuntu ISO creation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Change permissions
+        run: |
+          sudo chmod +x ubuntu/get_iso.sh
+          sudo chmod +x ubuntu/modify.sh
+
+      - name: Test get_iso.sh with noble
+        run: |
+          ./get_iso.sh noble true
+
+      - name: Test modify.sh with noble
+        run: |
+          ./modify.sh noble
