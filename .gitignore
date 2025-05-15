@@ -1,0 +1,5 @@
+*kitchen/
+*.iso
+SHA256SUMS*
+xorriso
+.DS_Store

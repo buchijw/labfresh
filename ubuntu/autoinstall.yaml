@@ -18,7 +18,7 @@ autoinstall:
       - arches: &id001
         - amd64
         - i386
-        uri: http:/vn.archive.ubuntu.com/ubuntu/
+        uri: http://archive.ubuntu.com/ubuntu/
       - arches: &id002
         - s390x
         - arm64
