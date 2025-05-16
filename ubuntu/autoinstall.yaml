@@ -103,7 +103,7 @@ autoinstall:
   #   - teamviewer
   late-commands:
     - curtin in-target -- apt-get update
-    - curtin in-target -- apt-get upgrade
+    - curtin in-target -- apt-get upgrade -y
     - |
       curtin in-target -- apt-get install -y \
         apt-transport-https \
