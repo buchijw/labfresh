@@ -112,6 +112,9 @@ autoinstall:
         build-essential \
         htop \
         make \
+        curl \
+        wget \
+        gpg \
         fish \
         code \
         microsoft-edge-stable \
