@@ -2,6 +2,8 @@
 # See the autoinstall documentation at:
 # https://canonical-subiquity.readthedocs-hosted.com/en/latest/reference/autoinstall-reference.html
 autoinstall:
+  early-commands:
+    - wget -O /autoinstall.yaml https://raw.githubusercontent.com/buchijw/labfresh/refs/heads/main/ubuntu/autoinstall.yaml
   refresh-installer:
     update: true
   interactive-sections:
@@ -34,23 +36,28 @@ autoinstall:
     - arches: *id002
       uri: http://ports.ubuntu.com/ubuntu-ports
     sources:
-      fish:
-        source: "ppa:fish-shell/release-4"
+      fish-ppa:
+        source: ppa:fish-shell/release-4
       vscode.list: # https://learn.microsoft.com/en-us/linux/packages
-        source: "deb [arch=amd64] https://packages.microsoft.com/repos/code stable main"
+        source: deb [arch=amd64] https://packages.microsoft.com/repos/code stable main
         keyid: bc528686b50d79e339d3721ceb3e94adbe1229cf
+        keyserver: hkps://keyserver.ubuntu.com:443
       edge.list:
-        source: "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main"
+        source: deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main
         keyid: bc528686b50d79e339d3721ceb3e94adbe1229cf
+        keyserver: hkps://keyserver.ubuntu.com:443
       docker.list: # https://docs.docker.com/desktop/setup/install/linux/ubuntu/
-        source: "deb [arch=amd64] https://download.docker.com/linux/ubuntu noble stable"
+        source: deb [arch=amd64] https://download.docker.com/linux/ubuntu noble stable
         keyid: 9dc858229fc7dd38854ae2d88d81803c0ebfcd88
+        keyserver: hkps://keyserver.ubuntu.com:443
       anydesk.list: # https://deb.anydesk.com/howto.html
-        source: "deb https://deb.anydesk.com all main"
+        source: deb https://deb.anydesk.com all main
         keyid: 06b5ea2fae208e7cda9761dca2fb21d5a8772835
+        keyserver: hkps://keyserver.ubuntu.com:443
       teamviewer.list: # https://www.teamviewer.com/apac/global/support/knowledge-base/teamviewer-classic/installation/linux/install-teamviewer-classic-on-red-hat-and-centos/
-        source: "deb https://linux.teamviewer.com/deb stable main"
+        source: deb https://linux.teamviewer.com/deb stable main
         keyid: AB2985BDE164897BA46EA69A234FAACB575B15D1
+        keyserver: hkps://keyserver.ubuntu.com:443
   codecs:
     install: true
   drivers:
@@ -79,28 +86,39 @@ autoinstall:
         ssd: true
         size: largest
   timezone: Asia/Ho_Chi_Minh
-  debconf-selections: |
-    code code/add-microsoft-repo boolean true
-  packages:
-    - git
-    - build-essential
-    - curl
-    - htop
-    - make
-    - wget
-    - apt-transport-https
-    - gpg
-    - ca-certificates
-    - fish
-    - code
-    - microsoft-edge-stable
-    - anydesk
-    - teamviewer
+  # packages:
+  #   - git
+  #   - build-essential
+  #   - curl
+  #   - htop
+  #   - make
+  #   - wget
+  #   - apt-transport-https
+  #   - gpg
+  #   - ca-certificates
+  #   - fish
+  #   - code
+  #   - microsoft-edge-stable
+  #   - anydesk
+  #   - teamviewer
   late-commands:
     - curtin in-target -- apt-get update
     - curtin in-target -- apt-get upgrade
+    - |
+      curtin in-target -- apt-get install -y \
+        apt-transport-https \
+        ca-certificates \
+        git \
+        build-essential \
+        htop \
+        make \
+        fish \
+        code \
+        microsoft-edge-stable \
+        anydesk \
+        teamviewer
     - curtin in-target -- curl -o /tmp/docker.deb https://desktop.docker.com/linux/main/amd64/docker-desktop-amd64.deb
-    - curtin in-target -- apt-get install /tmp/docker.deb
+    - curtin in-target -- apt-get install -y /tmp/docker.deb
   updates: all
   shutdown: reboot
   version: 1
