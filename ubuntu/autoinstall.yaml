@@ -131,10 +131,6 @@ autoinstall:
     - curtin in-target -- flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
     # Ibus-bamboo
     - curtin in-target -- apt-get install ibus ibus-bamboo --install-recommends -y
-    # ChimeraX
-    - curtin in-target -- curl -fsSL -o /tmp/chimerax.deb https://www.rbvi.ucsf.edu/chimerax/cgi-bin/secure/chimerax-get.py?file=1.10/ubuntu-24.04/ucsf-chimerax_1.10ubuntu24.04_amd64.deb
-    - curtin in-target -- apt-get install -y /tmp/chimerax.deb
-    - curtin in-target -- rm -rf /tmp/chimerax.deb
     # Disable ntfs3
     - curtin in-target -- echo 'blacklist ntfs3' | sudo tee /etc/modprobe.d/disable-ntfs3.conf
   updates: all
