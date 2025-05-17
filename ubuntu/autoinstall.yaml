@@ -54,10 +54,12 @@ autoinstall:
         source: deb https://deb.anydesk.com all main
         keyid: 06b5ea2fae208e7cda9761dca2fb21d5a8772835
         keyserver: hkps://keyserver.ubuntu.com:443
-      teamviewer.list: # https://www.teamviewer.com/apac/global/support/knowledge-base/teamviewer-classic/installation/linux/install-teamviewer-classic-on-red-hat-and-centos/
-        source: deb https://linux.teamviewer.com/deb stable main
-        keyid: AB2985BDE164897BA46EA69A234FAACB575B15D1
+      tailscale.list:
+        source: deb https://pkgs.tailscale.com/stable/ubuntu noble main
+        keyid: 2596a99eaab33821893c0a79458ca832957f5868
         keyserver: hkps://keyserver.ubuntu.com:443
+      ibus-bamboo:
+        source: ppa:bamboo-engine/ibus-bamboo
   codecs:
     install: true
   drivers:
@@ -119,9 +121,17 @@ autoinstall:
         code \
         microsoft-edge-stable \
         anydesk \
-        teamviewer
+        conky-all \
+        tailscale
     - curtin in-target -- curl -o /tmp/docker.deb https://desktop.docker.com/linux/main/amd64/docker-desktop-amd64.deb
     - curtin in-target -- apt-get install -y /tmp/docker.deb
+    - curtin in-target -- rm -rf /tmp/docker.deb
+    - curtin in-target -- apt-get install ibus ibus-bamboo --install-recommends -y
+    - curtin in-target -- env DCONF_PROFILE=ibus dconf write /desktop/ibus/general/preload-engines "['BambooUs', 'Bamboo']" && gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('ibus', 'Bamboo')]"
+    - curtin in-target -- curl -fsSL -o /tmp/chimerax.deb https://www.rbvi.ucsf.edu/chimerax/cgi-bin/secure/chimerax-get.py?file=1.10/ubuntu-24.04/ucsf-chimerax_1.10ubuntu24.04_amd64.deb
+    - curtin in-target -- apt-get install -y /tmp/chimerax.deb
+    - curtin in-target -- rm -rf /tmp/chimerax.deb
+    - curtin in-target -- echo 'blacklist ntfs3' | sudo tee /etc/modprobe.d/disable-ntfs3.conf # disable ntfs3
   updates: all
   shutdown: reboot
   version: 1
