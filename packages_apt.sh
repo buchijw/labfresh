@@ -23,9 +23,7 @@ apt-get install -y /tmp/rustdesk.deb
 rm -rf /tmp/rustdesk.deb
 
 # Prompt user for decryption password securely
-echo "============================================"
 echo "Setting up Rustdesk..."
-echo "============================================"
 if [ -n "$DECRYPT_RUSTDESK" ]; then
   echo "Using existing decryption password from environment variable"
 else
@@ -47,3 +45,7 @@ echo "Using decrypted key to configure Rustdesk..."
 rustdesk --config "$DECRYPTED_KEY"
 
 systemctl restart rustdesk
+
+
+
+exit 0
