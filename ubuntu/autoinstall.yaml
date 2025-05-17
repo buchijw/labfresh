@@ -122,16 +122,22 @@ autoinstall:
         microsoft-edge-stable \
         anydesk \
         conky-all \
-        tailscale
-    - curtin in-target -- curl -o /tmp/docker.deb https://desktop.docker.com/linux/main/amd64/docker-desktop-amd64.deb
-    - curtin in-target -- apt-get install -y /tmp/docker.deb
-    - curtin in-target -- rm -rf /tmp/docker.deb
+        tailscale \
+        podman \
+        flatpak
+    # Docker
+    - curtin in-target -- apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    # Flatpak
+    - curtin in-target -- flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+    # Ibus-bamboo
     - curtin in-target -- apt-get install ibus ibus-bamboo --install-recommends -y
     - curtin in-target -- env DCONF_PROFILE=ibus dconf write /desktop/ibus/general/preload-engines "['BambooUs', 'Bamboo']" && gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('ibus', 'Bamboo')]"
+    # ChimeraX
     - curtin in-target -- curl -fsSL -o /tmp/chimerax.deb https://www.rbvi.ucsf.edu/chimerax/cgi-bin/secure/chimerax-get.py?file=1.10/ubuntu-24.04/ucsf-chimerax_1.10ubuntu24.04_amd64.deb
     - curtin in-target -- apt-get install -y /tmp/chimerax.deb
     - curtin in-target -- rm -rf /tmp/chimerax.deb
-    - curtin in-target -- echo 'blacklist ntfs3' | sudo tee /etc/modprobe.d/disable-ntfs3.conf # disable ntfs3
+    # Disable ntfs3
+    - curtin in-target -- echo 'blacklist ntfs3' | sudo tee /etc/modprobe.d/disable-ntfs3.conf
   updates: all
   shutdown: reboot
   version: 1
