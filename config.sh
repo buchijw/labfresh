@@ -44,6 +44,29 @@ echo "============================================"
 echo $(which fish) | sudo tee -a /etc/shells
 chsh -s $(which fish)
 
+# Configure starship
+echo "============================================"
+echo "Configuring starship..."
+echo "============================================"
+mkdir -p ~/.config && touch ~/.config/starship.toml
+starship preset gruvbox-rainbow -o ~/.config/starship.toml
+awk '
+  BEGIN { in_block=0 }
+  /^\[conda\]/ { print; in_block=1; next }
+  in_block && /^\[/ { if (!seen) print "ignore_base = false"; in_block=0 }
+  in_block && /ignore_base/ { seen=1 }
+  { print }
+  END { if (in_block && !seen) print "ignore_base = false" }
+' ~/.config/starship.toml > ~/.config/starship.toml.tmp && mv ~/.config/starship.toml.tmp ~/.config/starship.toml
+
+grep -qxF 'starship init fish | source' ~/.config/fish/config.fish || echo 'starship init fish | source' >> ~/.config/fish/config.fish
+
+# Configure pixi
+echo "============================================"
+echo "Configuring pixi..."
+echo "============================================"
+grep -qxF "fish_add_path $HOME/.pixi/bin" ~/.config/fish/config.fish || echo "fish_add_path $HOME/.pixi/bin" >> ~/.config/fish/config.fish
+
 echo "Please reboot the machine"
 
 exit 0
