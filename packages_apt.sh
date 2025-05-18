@@ -46,12 +46,4 @@ rustdesk --config "$DECRYPTED_KEY"
 
 systemctl restart rustdesk
 
-# ChimeraX
-echo "============================================"
-echo "Installing ChimeraX..."
-echo "============================================"
-curl -fsSL -o /tmp/chimerax.deb https://www.rbvi.ucsf.edu/chimerax/cgi-bin/secure/chimerax-get.py?file=1.10/ubuntu-24.04/ucsf-chimerax_1.10ubuntu24.04_amd64.deb
-apt-get install -y /tmp/chimerax.deb
-rm -rf /tmp/chimerax.deb
-
 exit 0

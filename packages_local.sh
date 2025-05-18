@@ -3,7 +3,7 @@
 set -eo pipefail
 
 # Check if the script is being run as normal user
-if [ $(id -u) != 0 ]; then
+if [ $(id -u) -eq 0 ]; then
     echo "This script must be run as normal user."
     exit 1
 fi
@@ -37,6 +37,21 @@ echo "Installing pixi..."
 echo "============================================"
 curl -fsSL https://pixi.sh/install.sh | sh
 
+# Install kitty
+echo "============================================"
+echo "Installing kitty..."
+echo "============================================"
+echo "Downloading kitty..."
+curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin \
+    launch=n
+echo "Configuring kitty..."
+sudo ln -sf ~/.local/kitty.app/bin/kitty ~/.local/kitty.app/bin/kitten /usr/local/bin
+sudo cp ~/.local/kitty.app/share/applications/kitty.desktop /usr/local/share/applications/
+sudo cp ~/.local/kitty.app/share/applications/kitty-open.desktop /usr/local/share/applications/
+sudo sed -i "s|Icon=kitty|Icon=$(readlink -f ~)/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" /usr/local/share/applications/kitty*.desktop
+sudo sed -i "s|Exec=kitty|Exec=$(readlink -f ~)/.local/kitty.app/bin/kitty|g" /usr/local/share/applications/kitty*.desktop
+echo 'kitty.desktop' > ~/.config/xdg-terminals.list
+
 # Install Podman Desktop
 echo "============================================"
 echo "Installing Podman Desktop..."
@@ -47,3 +62,19 @@ flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.f
 
 echo "Installing Podman Desktop..."
 flatpak install --user flathub io.podman_desktop.PodmanDesktop
+
+# Install starship
+echo "============================================"
+echo "Installing starship..."
+echo "============================================"
+echo "Install Meslo nerd fonts..."
+mkdir -p /tmp/meslo
+curl -fsSL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Meslo.zip | tar xvf - -C /tmp/meslo
+sudo mkdir -p /usr/share/fonts/truetype/meslo
+cp /tmp/meslo/*.ttf /usr/share/fonts/truetype/meslo
+rm -rf /tmp/meslo
+echo "Cache fonts..."
+fc-cache -f -v
+
+echo "Installing starship..."
+curl -sS https://starship.rs/install.sh | sh

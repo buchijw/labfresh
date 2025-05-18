@@ -30,3 +30,20 @@ newgrp docker
 
 echo "Testing Docker CE non-root access..."
 docker run hello-world
+
+# Configure tailscale
+echo "============================================"
+echo "Configuring Tailscale..."
+echo "============================================"
+sudo tailscale up --ssh
+
+# Configure fish
+echo "============================================"
+echo "Configuring fish..."
+echo "============================================"
+echo $(which fish) | sudo tee -a /etc/shells
+chsh -s $(which fish)
+
+echo "Please reboot the machine"
+
+exit 0
