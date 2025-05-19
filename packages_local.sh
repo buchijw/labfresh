@@ -29,7 +29,7 @@ echo "============================================"
 echo "============================================"
 echo "Installing pymol-open-source..."
 echo "============================================"
-conda create -n pymol python=3.12 pymol-open-source -c conda-forge --overwrite-channel -y
+conda create -n pymol python=3.12 pymol-open-source -c conda-forge --override-channel -y
 
 # Install pixi
 echo "============================================"
