@@ -55,6 +55,14 @@ awk '
 
 grep -qxF 'starship init fish | source' ~/.config/fish/config.fish || echo 'starship init fish | source' >> ~/.config/fish/config.fish
 
+# Configure kitty
+echo "============================================"
+echo "Configuring kitty..."
+echo "============================================"
+mkdir -p ~/.config/kitty
+cp ./dotfiles/kitty/kitty.conf ~/.config/kitty/kitty.conf
+cp ./dotfiles/kitty/current-theme.conf ~/.config/kitty/current-theme.conf
+
 # Configure pixi
 echo "============================================"
 echo "Configuring pixi..."
@@ -66,9 +74,9 @@ echo "============================================"
 echo "Configuring conky..."
 echo "============================================"
 mkdir -p ~/.config/conky
-cp ./dotfiles/conky_users.sh ~/.config/conky/conky_users.sh
+cp ./dotfiles/conky/conky_users.sh ~/.config/conky/conky_users.sh
 chmod +x ~/.config/conky/conky_users.sh
-cp ./dotfiles/conky.conf ~/.config/conky/conky.conf
+cp ./dotfiles/conky/conky.conf ~/.config/conky/conky.conf
 
 echo "Please add 'conky -c ~/.config/conky/conky.conf' to run on startup"
 
