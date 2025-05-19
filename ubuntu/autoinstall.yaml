@@ -124,7 +124,9 @@ autoinstall:
         conky-all \
         tailscale \
         podman \
-        flatpak
+        flatpak \
+        screen \
+        byobu
     # Docker
     - curtin in-target -- apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     # Flatpak

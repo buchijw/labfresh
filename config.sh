@@ -67,6 +67,17 @@ echo "Configuring pixi..."
 echo "============================================"
 grep -qxF "fish_add_path $HOME/.pixi/bin" ~/.config/fish/config.fish || echo "fish_add_path $HOME/.pixi/bin" >> ~/.config/fish/config.fish
 
+# Configure conky
+echo "============================================"
+echo "Configuring conky..."
+echo "============================================"
+mkdir -p ~/.config/conky
+cp ./dotfiles/conky_users.sh ~/.config/conky/conky_users.sh
+chmod +x ~/.config/conky/conky_users.sh
+cp ./dotfiles/conky.conf ~/.config/conky/conky.conf
+
+echo "Please add 'conky -c ~/.config/conky/conky.conf' to run on startup"
+
 echo "Please reboot the machine"
 
 exit 0
