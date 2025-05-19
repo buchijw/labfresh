@@ -69,9 +69,10 @@ echo "Installing starship..."
 echo "============================================"
 echo "Install Meslo nerd fonts..."
 mkdir -p /tmp/meslo
-curl -fsSL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Meslo.zip | tar xvf - -C /tmp/meslo
+wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Meslo.zip -O /tmp/Meslo.zip
+unzip /tmp/Meslo.zip -d /tmp/meslo && rm /tmp/Meslo.zip
 sudo mkdir -p /usr/share/fonts/truetype/meslo
-cp /tmp/meslo/*.ttf /usr/share/fonts/truetype/meslo
+sudo cp /tmp/meslo/*.ttf /usr/share/fonts/truetype/meslo
 rm -rf /tmp/meslo
 echo "Cache fonts..."
 fc-cache -f -v
