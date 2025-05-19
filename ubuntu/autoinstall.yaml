@@ -8,7 +8,7 @@ autoinstall:
     update: true
   interactive-sections:
     - network
-    # - storage
+    - storage
     - identity
   apt:
     disable_components: []
@@ -35,31 +35,6 @@ autoinstall:
       uri: http://security.ubuntu.com/ubuntu/
     - arches: *id002
       uri: http://ports.ubuntu.com/ubuntu-ports
-    sources:
-      fish-ppa:
-        source: ppa:fish-shell/release-4
-      vscode.list: # https://learn.microsoft.com/en-us/linux/packages
-        source: deb [arch=amd64] https://packages.microsoft.com/repos/code stable main
-        keyid: bc528686b50d79e339d3721ceb3e94adbe1229cf
-        keyserver: hkps://keyserver.ubuntu.com:443
-      edge.list:
-        source: deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main
-        keyid: bc528686b50d79e339d3721ceb3e94adbe1229cf
-        keyserver: hkps://keyserver.ubuntu.com:443
-      docker.list: # https://docs.docker.com/desktop/setup/install/linux/ubuntu/
-        source: deb [arch=amd64] https://download.docker.com/linux/ubuntu noble stable
-        keyid: 9dc858229fc7dd38854ae2d88d81803c0ebfcd88
-        keyserver: hkps://keyserver.ubuntu.com:443
-      anydesk.list: # https://deb.anydesk.com/howto.html
-        source: deb https://deb.anydesk.com all main
-        keyid: 06b5ea2fae208e7cda9761dca2fb21d5a8772835
-        keyserver: hkps://keyserver.ubuntu.com:443
-      tailscale.list:
-        source: deb https://pkgs.tailscale.com/stable/ubuntu noble main
-        keyid: 2596a99eaab33821893c0a79458ca832957f5868
-        keyserver: hkps://keyserver.ubuntu.com:443
-      ibus-bamboo:
-        source: ppa:bamboo-engine/ibus-bamboo
   codecs:
     install: true
   drivers:
@@ -88,51 +63,9 @@ autoinstall:
         ssd: true
         size: largest
   timezone: Asia/Ho_Chi_Minh
-  # packages:
-  #   - git
-  #   - build-essential
-  #   - curl
-  #   - htop
-  #   - make
-  #   - wget
-  #   - apt-transport-https
-  #   - gpg
-  #   - ca-certificates
-  #   - fish
-  #   - code
-  #   - microsoft-edge-stable
-  #   - anydesk
-  #   - teamviewer
   late-commands:
     - curtin in-target -- apt-get update
     - curtin in-target -- apt-get upgrade -y
-    - |
-      curtin in-target -- apt-get install -y \
-        apt-transport-https \
-        ca-certificates \
-        git \
-        build-essential \
-        htop \
-        make \
-        curl \
-        wget \
-        gpg \
-        fish \
-        code \
-        microsoft-edge-stable \
-        anydesk \
-        conky-all \
-        tailscale \
-        podman \
-        flatpak \
-        screen \
-        byobu
-    # Docker
-    - curtin in-target -- apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-    # Flatpak
-    - curtin in-target -- flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-    # Ibus-bamboo
-    - curtin in-target -- apt-get install ibus ibus-bamboo --install-recommends -y
     # Disable ntfs3
     - curtin in-target -- echo 'blacklist ntfs3' | sudo tee /etc/modprobe.d/disable-ntfs3.conf
   updates: all

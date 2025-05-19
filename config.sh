@@ -14,12 +14,6 @@ echo "Updating apt..."
 echo "============================================"
 sudo apt-get update
 
-# Configure ibus-bamboo
-echo "============================================"
-echo "Configuring ibus-bamboo..."
-echo "============================================"
-env DCONF_PROFILE=ibus dconf write /desktop/ibus/general/preload-engines "['BambooUs', 'Bamboo']" && gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('ibus', 'Bamboo')]"
-
 # Configure docker CE
 echo "============================================"
 echo "Configuring Docker CE..."

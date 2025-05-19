@@ -14,6 +14,81 @@ echo "Updating apt..."
 echo "============================================"
 apt-get update
 
+# Install app
+apt-get install -y \
+        apt-transport-https \
+        ca-certificates \
+        git \
+        build-essential \
+        htop \
+        make \
+        curl \
+        wget \
+        gpg \
+        conky-all \
+        podman \
+        flatpak \
+        screen \
+        byobu
+
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+# Visual Studio Code
+echo "============================================"
+echo "Installing Visual Studio Code..."
+echo "============================================"
+wget "https://update.code.visualstudio.com/latest/linux-deb-x64/stable" -O /tmp/code.deb
+apt-get install -y /tmp/code.deb
+rm -rf /tmp/code.deb
+
+# Microsoft Edge
+echo "============================================"
+echo "Installing Microsoft Edge..."
+echo "============================================"
+wget "https://go.microsoft.com/fwlink?linkid=2149051" -O /tmp/edge.deb
+apt-get install -y /tmp/edge.deb
+rm -rf /tmp/edge.deb
+
+# Install ibus-bamboo
+echo "============================================"
+echo "Installing ibus-bamboo..."
+echo "============================================"
+add-apt-repository ppa:bamboo-engine/ibus-bamboo
+apt-get update
+apt-get install ibus ibus-bamboo --install-recommends -y
+ibus restart
+env DCONF_PROFILE=ibus dconf write /desktop/ibus/general/preload-engines "['BambooUs', 'Bamboo']" && gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('ibus', 'Bamboo')]"
+
+# fish shell
+echo "============================================"
+echo "Installing fish shell..."
+echo "============================================"
+add-apt-repository ppa:fish-shell/release-4
+apt-get update
+apt-get install fish -y
+
+# tailscale
+echo "============================================"
+echo "Installing tailscale..."
+echo "============================================"
+curl -fsSL https://tailscale.com/install.sh | sh
+
+# docker
+echo "============================================"
+echo "Installing Docker..."
+echo "============================================"
+install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+apt-get update
+apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
 # rustdesk
 echo "============================================"
 echo "Installing Rustdesk..."
