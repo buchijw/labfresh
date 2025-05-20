@@ -14,16 +14,16 @@ echo "Updating apt..."
 echo "============================================"
 sudo apt-get update
 
-# Configure docker CE
-echo "============================================"
-echo "Configuring Docker CE..."
-echo "============================================"
-sudo groupadd docker
-sudo usermod -aG docker $USER
-newgrp docker
+# # Configure docker CE
+# echo "============================================"
+# echo "Configuring Docker CE..."
+# echo "============================================"
+# sudo groupadd docker
+# sudo usermod -aG docker $USER
+# newgrp docker
 
-echo "Testing Docker CE non-root access..."
-docker run hello-world
+# echo "Testing Docker CE non-root access..."
+# docker run hello-world
 
 # Configure tailscale
 echo "============================================"
