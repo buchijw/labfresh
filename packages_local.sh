@@ -58,7 +58,7 @@ echo "Installing Podman Desktop..."
 echo "============================================"
 
 echo "Adding flathub repo..."
-flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 echo "Installing Podman Desktop..."
 flatpak install --user flathub io.podman_desktop.PodmanDesktop
