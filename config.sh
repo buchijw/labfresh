@@ -3,7 +3,7 @@
 set -eo pipefail
 
 # Check if the script is being run as normal user
-if [ $(id -u) != 0 ]; then
+if [ $(id -u) -eq 0 ]; then
     echo "This script must be run as normal user."
     exit 1
 fi
