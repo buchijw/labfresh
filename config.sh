@@ -61,7 +61,6 @@ echo "Configuring kitty..."
 echo "============================================"
 mkdir -p ~/.config/kitty
 cp ./dotfiles/kitty/kitty.conf ~/.config/kitty/kitty.conf
-cp ./dotfiles/kitty/current-theme.conf ~/.config/kitty/current-theme.conf
 
 # Configure pixi
 echo "============================================"

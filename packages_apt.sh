@@ -31,8 +31,6 @@ apt-get install -y \
         screen \
         byobu
 
-flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-
 # Visual Studio Code
 echo "============================================"
 echo "Installing Visual Studio Code..."
@@ -57,7 +55,7 @@ add-apt-repository ppa:bamboo-engine/ibus-bamboo
 apt-get update
 apt-get install ibus ibus-bamboo --install-recommends -y
 # ibus restart
-env DCONF_PROFILE=ibus dconf write /desktop/ibus/general/preload-engines "['BambooUs', 'Bamboo']" && gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('ibus', 'Bamboo')]"
+# env DCONF_PROFILE=ibus dconf write /desktop/ibus/general/preload-engines "['BambooUs', 'Bamboo']" && gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('ibus', 'Bamboo')]"
 
 # fish shell
 echo "============================================"
