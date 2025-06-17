@@ -66,6 +66,7 @@ autoinstall:
   late-commands:
     - curtin in-target -- apt-get update
     - curtin in-target -- apt-get upgrade -y
+    - curtin in-target -- apt-get install git -y
     # Disable ntfs3
     - curtin in-target -- echo 'blacklist ntfs3' | sudo tee /etc/modprobe.d/disable-ntfs3.conf
   updates: all

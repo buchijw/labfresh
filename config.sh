@@ -15,15 +15,15 @@ echo "============================================"
 sudo apt-get update
 
 # # Configure docker CE
-# echo "============================================"
-# echo "Configuring Docker CE..."
-# echo "============================================"
+echo "============================================"
+echo "Configuring Docker CE..."
+echo "============================================"
 # sudo groupadd docker
-# sudo usermod -aG docker $USER
+sudo usermod -aG docker $USER
 # newgrp docker
 
 # echo "Testing Docker CE non-root access..."
-# docker run hello-world
+docker run hello-world
 
 # Configure tailscale
 echo "============================================"
@@ -56,11 +56,11 @@ awk '
 grep -qxF 'starship init fish | source' ~/.config/fish/config.fish || echo 'starship init fish | source' >> ~/.config/fish/config.fish
 
 # Configure kitty
-echo "============================================"
-echo "Configuring kitty..."
-echo "============================================"
-mkdir -p ~/.config/kitty
-cp ./dotfiles/kitty/kitty.conf ~/.config/kitty/kitty.conf
+# echo "============================================"
+# echo "Configuring kitty..."
+# echo "============================================"
+# mkdir -p ~/.config/kitty
+# cp ./dotfiles/kitty/kitty.conf ~/.config/kitty/kitty.conf
 
 # Configure pixi
 echo "============================================"

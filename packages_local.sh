@@ -46,6 +46,7 @@ curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin \
     launch=n
 echo "Configuring kitty..."
 sudo ln -sf ~/.local/kitty.app/bin/kitty ~/.local/kitty.app/bin/kitten /usr/local/bin
+sudo mkdir -p /usr/local/share/applications/
 sudo cp ~/.local/kitty.app/share/applications/kitty.desktop /usr/local/share/applications/
 sudo cp ~/.local/kitty.app/share/applications/kitty-open.desktop /usr/local/share/applications/
 sudo sed -i "s|Icon=kitty|Icon=$(readlink -f ~)/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" /usr/local/share/applications/kitty*.desktop
