@@ -2,6 +2,19 @@
 
 set -eo pipefail
 
+confirm() {
+    # call with a prompt string or use a default
+    read -r -p "${1:-Are you sure? [y/N]} " response
+    case "$response" in
+        [yY][eE][sS]|[yY])
+            true
+            ;;
+        *)
+            false
+            ;;
+    esac
+}
+
 # Check if the script is being run as normal user
 if [ $(id -u) -eq 0 ]; then
     echo "This script must be run as normal user."
@@ -14,6 +27,24 @@ echo "Updating apt..."
 echo "============================================"
 sudo apt-get update
 
+# Configure kanidm
+echo "============================================"
+echo "Configuring kanidm..."
+echo "============================================"
+read -p "Enter your IDM URL: " new_url && echo "uri = \"$new_url\"" >> "./dotfiles/kanidm/config"
+sudo cp "./dotfiles/kanidm/config" "/etc/kanidm/config"
+sudo cp "./dotfiles/kanidm/unixd" "/etc/kanidm/unixd"
+sudo chown root:root "/etc/kanidm/config"
+sudo chmod 644 "/etc/kanidm/config"
+sudo chown root:root "/etc/kanidm/unixd"
+sudo chmod 644 "/etc/kanidm/unixd"
+sudo mkdir -p /etc/systemd/system/kanidm-unixd-tasks.service.d
+sudo cp ./dotfiles/kanidm/override.conf /etc/systemd/system/kanidm-unixd-tasks.service.d/override.conf
+sudo chmod 644 /etc/systemd/system/kanidm-unixd-tasks.service.d/override.conf
+sudo systemctl enable --now kanidm-unixd
+sudo systemctl daemon-reload
+kanidm-unix status
+
 # # Configure docker CE
 echo "============================================"
 echo "Configuring Docker CE..."
@@ -22,14 +53,14 @@ echo "============================================"
 sudo usermod -aG docker $USER
 # newgrp docker
 
-# echo "Testing Docker CE non-root access..."
+echo "Testing Docker CE non-root access..."
 docker run hello-world
 
 # Configure tailscale
 echo "============================================"
 echo "Configuring Tailscale..."
 echo "============================================"
-sudo tailscale up --ssh
+confirm "Do you want to connect to Tailscale?" && sudo tailscale up --ssh
 
 # Configure fish
 echo "============================================"
@@ -60,32 +91,13 @@ echo "============================================"
 echo "Configuring kitty..."
 echo "============================================"
 mkdir -p ~/.config/kitty
-cp ./dotfiles/kitty/kitty.conf ~/.config/kitty/kitty.conf
+# cp ./dotfiles/kitty/kitty.conf ~/.config/kitty/kitty.conf
 
 # Configure pixi
 echo "============================================"
 echo "Configuring pixi..."
 echo "============================================"
 grep -qxF "fish_add_path $HOME/.pixi/bin" ~/.config/fish/config.fish || echo "fish_add_path $HOME/.pixi/bin" >> ~/.config/fish/config.fish
-
-# Configure kanidm
-echo "============================================"
-echo "Configuring kanidm..."
-echo "============================================"
-mkdir -p ~/.config/kanidm
-read -p "Enter your IDM URL: " new_url && echo "uri = \"$new_url\"" >> "./dotfiles/kanidm/config"
-sudo cp "./dotfiles/kanidm/config" "/etc/kanidm/config"
-sudo cp "./dotfiles/kanidm/unixd" "/etc/kanidm/unixd"
-sudo chown root:root "/etc/kanidm/config"
-sudo chmod 644 "/etc/kanidm/config"
-sudo chown root:root "/etc/kanidm/unixd"
-sudo chmod 644 "/etc/kanidm/unixd"
-sudo mkdir -p /etc/systemd/system/kanidm-unixd-tasks.service.d
-sudo cp ./dotfiles/kanidm/kanidm-unixd-tasks.service.d/override.conf /etc/systemd/system/kanidm-unixd-tasks.service.d/override.conf
-sudo chmod 644 /etc/systemd/system/kanidm-unixd-tasks.service.d/override.conf
-sudo systemctl enable --now kanidm-unixd
-sudo systemctl daemon-reload
-kanidm-unix status
 
 # Configure conky
 echo "============================================"
