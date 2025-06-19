@@ -119,4 +119,18 @@ rustdesk --config "$DECRYPTED_KEY"
 
 systemctl restart rustdesk
 
+# Install kanidm
+echo "============================================"
+echo "Installing kanidm..."
+echo "============================================"
+curl -s "https://kanidm.github.io/kanidm_ppa/kanidm_ppa.asc" \
+    | sudo tee /etc/apt/trusted.gpg.d/kanidm_ppa.asc >/dev/null
+curl -s "https://kanidm.github.io/kanidm_ppa/kanidm_ppa.list" \
+    | grep $( ( . /etc/os-release && echo $VERSION_CODENAME) ) | grep stable \
+    | sudo tee /etc/apt/sources.list.d/kanidm_ppa.list
+apt update
+apt install -y kanidm kanidm-unixd
+
+echo "Finished installing packages."
+
 exit 0

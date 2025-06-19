@@ -56,11 +56,11 @@ awk '
 grep -qxF 'starship init fish | source' ~/.config/fish/config.fish || echo 'starship init fish | source' >> ~/.config/fish/config.fish
 
 # Configure kitty
-# echo "============================================"
-# echo "Configuring kitty..."
-# echo "============================================"
-# mkdir -p ~/.config/kitty
-# cp ./dotfiles/kitty/kitty.conf ~/.config/kitty/kitty.conf
+echo "============================================"
+echo "Configuring kitty..."
+echo "============================================"
+mkdir -p ~/.config/kitty
+cp ./dotfiles/kitty/kitty.conf ~/.config/kitty/kitty.conf
 
 # Configure pixi
 echo "============================================"
@@ -68,13 +68,32 @@ echo "Configuring pixi..."
 echo "============================================"
 grep -qxF "fish_add_path $HOME/.pixi/bin" ~/.config/fish/config.fish || echo "fish_add_path $HOME/.pixi/bin" >> ~/.config/fish/config.fish
 
+# Configure kanidm
+echo "============================================"
+echo "Configuring kanidm..."
+echo "============================================"
+mkdir -p ~/.config/kanidm
+read -p "Enter your IDM URL: " new_url && echo "uri = \"$new_url\"" >> "./dotfiles/kanidm/config"
+sudo cp "./dotfiles/kanidm/config" "/etc/kanidm/config"
+sudo cp "./dotfiles/kanidm/unixd" "/etc/kanidm/unixd"
+sudo chown root:root "/etc/kanidm/config"
+sudo chmod 644 "/etc/kanidm/config"
+sudo chown root:root "/etc/kanidm/unixd"
+sudo chmod 644 "/etc/kanidm/unixd"
+sudo mkdir -p /etc/systemd/system/kanidm-unixd-tasks.service.d
+sudo cp ./dotfiles/kanidm/kanidm-unixd-tasks.service.d/override.conf /etc/systemd/system/kanidm-unixd-tasks.service.d/override.conf
+sudo chmod 644 /etc/systemd/system/kanidm-unixd-tasks.service.d/override.conf
+sudo systemctl enable --now kanidm-unixd
+sudo systemctl daemon-reload
+kanidm-unix status
+
 # Configure conky
 echo "============================================"
 echo "Configuring conky..."
 echo "============================================"
 mkdir -p ~/.config/conky
 cp ./dotfiles/conky/conky_users.sh ~/.config/conky/conky_users.sh
-chmod +x ~/.config/conky/conky_users.sh
+sudo chmod +x ~/.config/conky/conky_users.sh
 cp ./dotfiles/conky/conky.conf ~/.config/conky/conky.conf
 
 echo "Please add 'conky -c ~/.config/conky/conky.conf' to run on startup"
