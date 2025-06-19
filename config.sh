@@ -53,8 +53,8 @@ echo "============================================"
 sudo usermod -aG docker $USER
 # newgrp docker
 
-echo "Testing Docker CE non-root access..."
-docker run hello-world
+# echo "Testing Docker CE non-root access..."
+# docker run hello-world
 
 # Configure tailscale
 echo "============================================"
