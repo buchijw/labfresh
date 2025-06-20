@@ -87,6 +87,19 @@ echo \
 apt-get update
 apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
+
+# Install kanidm
+echo "============================================"
+echo "Installing kanidm..."
+echo "============================================"
+curl -s "https://kanidm.github.io/kanidm_ppa/kanidm_ppa.asc" \
+    | sudo tee /etc/apt/trusted.gpg.d/kanidm_ppa.asc >/dev/null
+curl -s "https://kanidm.github.io/kanidm_ppa/kanidm_ppa.list" \
+    | grep $( ( . /etc/os-release && echo $VERSION_CODENAME) ) | grep stable \
+    | sudo tee /etc/apt/sources.list.d/kanidm_ppa.list
+apt update
+apt install -y kanidm kanidm-unixd
+
 # rustdesk
 echo "============================================"
 echo "Installing Rustdesk..."
@@ -106,7 +119,7 @@ else
 fi
 
 # Decrypt the file using GPG
-DECRYPTED_KEY=$(echo "$DECRYPT_RUSTDESK" | gpg --batch --yes --passphrase-fd 0 --decrypt ./rdk.asc 2>/dev/null)
+DECRYPTED_KEY=$(echo "$DECRYPT_RUSTDESK" | gpg --batch --yes --passphrase-fd 0 --decrypt ../rdk.asc 2>/dev/null)
 
 if [ -z "$DECRYPTED_KEY" ]; then
   echo "Decryption failed"
@@ -118,18 +131,6 @@ echo "Using decrypted key to configure Rustdesk..."
 rustdesk --config "$DECRYPTED_KEY"
 
 systemctl restart rustdesk
-
-# Install kanidm
-echo "============================================"
-echo "Installing kanidm..."
-echo "============================================"
-curl -s "https://kanidm.github.io/kanidm_ppa/kanidm_ppa.asc" \
-    | sudo tee /etc/apt/trusted.gpg.d/kanidm_ppa.asc >/dev/null
-curl -s "https://kanidm.github.io/kanidm_ppa/kanidm_ppa.list" \
-    | grep $( ( . /etc/os-release && echo $VERSION_CODENAME) ) | grep stable \
-    | sudo tee /etc/apt/sources.list.d/kanidm_ppa.list
-apt update
-apt install -y kanidm kanidm-unixd
 
 echo "Finished installing packages."
 

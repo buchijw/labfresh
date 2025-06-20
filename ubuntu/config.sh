@@ -44,6 +44,9 @@ sudo chmod 644 /etc/systemd/system/kanidm-unixd-tasks.service.d/override.conf
 sudo systemctl enable --now kanidm-unixd
 sudo systemctl daemon-reload
 kanidm-unix status
+sudo cp -a /etc/nsswitch.conf /etc/nsswitch.conf.backup
+sudo cp -a /etc/pam.d /etc/pam.d.backup
+
 
 # # Configure docker CE
 echo "============================================"
