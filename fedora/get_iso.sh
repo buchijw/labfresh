@@ -11,7 +11,7 @@ if [ -n "$FED_RELEASE" ] && [ -n "$SPIN" ]; then
     echo "============================================"
     echo "Downloading latest Fedora $FED_RELEASE $SPIN (AMD64) LIVE ISO..."
     echo "============================================"
-    iso_url=$(echo "https://dl.fedoraproject.org/pub/alt/live-respins/$(curl -s "https://dl.fedoraproject.org/pub/alt/imagelist-alt" | grep  "/live-respins/F$FED_RELEASE-$SPIN-X86_64-LIVE" | awk -F '/live-respins/' '{print $2}')")
+    iso_url=$(echo "https://dl.fedoraproject.org/pub/alt/live-respins/$(curl -s "https://dl.fedoraproject.org/pub/alt/imagelist-alt" | grep  "/live-respins/F$FED_RELEASE-$SPIN" | awk -F '/live-respins/' '{print $2}')")
     echo $iso_url
     curl -fZL -o ./F$FED_RELEASE-$SPIN-amd64.iso $iso_url
 else

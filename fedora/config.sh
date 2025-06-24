@@ -107,9 +107,9 @@ echo "============================================"
 echo "Configuring conky..."
 echo "============================================"
 mkdir -p ~/.config/conky
-cp ./conky/conky_users.sh ~/.config/conky/conky_users.sh
+cp ../conky/conky_users.sh ~/.config/conky/conky_users.sh
 sudo chmod +x ~/.config/conky/conky_users.sh
-cp ./conky/conky.conf ~/.config/conky/conky.conf
+cp ../conky/conky.conf ~/.config/conky/conky.conf
 
 echo "Please add 'conky -c ~/.config/conky/conky.conf' to run on startup"
 
