@@ -22,6 +22,7 @@ sudo dnf install -y \
         htop \
         curl \
         wget \
+        aria2 \
         gpg \
         conky \
         podman \
