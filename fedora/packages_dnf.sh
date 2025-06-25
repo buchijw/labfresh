@@ -17,11 +17,10 @@ sudo dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-rel
 echo "Configuring OpenH264..."
 sudo dnf config-manager setopt fedora-cisco-openh264.enabled=1
 echo "Installing RPM Fusion Appstream Data..."
-sudo dnf install rpmfusion-\*-appstream-data
+sudo dnf install -y rpmfusion-\*-appstream-data
 echo "Installing ffmpeg..."
 sudo dnf swap ffmpeg-free ffmpeg --allowerasing
 echo "Updating dnf..."
-sudo dnf check-update
 sudo dnf upgrade -y
 
 # Install app
