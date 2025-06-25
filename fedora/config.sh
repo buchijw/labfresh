@@ -32,15 +32,16 @@ echo "============================================"
 echo "Configuring kanidm..."
 echo "============================================"
 sudo semanage permissive -a unconfined_service_t
-read -p "Enter your IDM URL: " new_url && echo "uri = \"$new_url\"" >> "../kanidm/config"
-sudo cp "../kanidm/config" "/etc/kanidm/config"
-sudo cp "../kanidm/unixd" "/etc/kanidm/unixd"
+sudo mkdir -p "/u"
+read -p "Enter your IDM URL: " new_url && echo "uri = \"$new_url\"" >> "./kanidm/config"
+sudo cp "./kanidm/config" "/etc/kanidm/config"
+sudo cp "./kanidm/unixd" "/etc/kanidm/unixd"
 sudo chown root:root "/etc/kanidm/config"
 sudo chmod 644 "/etc/kanidm/config"
 sudo chown root:root "/etc/kanidm/unixd"
 sudo chmod 644 "/etc/kanidm/unixd"
 sudo mkdir -p /etc/systemd/system/kanidm-unixd-tasks.service.d
-sudo cp ../kanidm/override.conf /etc/systemd/system/kanidm-unixd-tasks.service.d/override.conf
+sudo cp ./kanidm/override.conf /etc/systemd/system/kanidm-unixd-tasks.service.d/override.conf
 sudo chmod 644 /etc/systemd/system/kanidm-unixd-tasks.service.d/override.conf
 sudo systemctl enable --now kanidm-unixd
 sudo systemctl daemon-reload
